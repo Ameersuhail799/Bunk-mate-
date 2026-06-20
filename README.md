@@ -1,1 +1,1 @@
-# Bunk-mate-
+BunkBuddy is a modern web application designed to help students manage their attendance effectively. The platform includes an Attendance Calculator, Subject Tracker, Attendance Simulator, and Recovery Planner, allowing users to analyze attendance percentages, predict the impact of future absences, and plan strategies to maintain eligibility. Built using HTML, CSS, and JavaScript, the project combines practical functionality with a humorous student-centric design to create an engaging user experience.
