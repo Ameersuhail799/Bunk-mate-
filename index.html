@@ -1,17 +1,201 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>BunkBuddy</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BunkBuddy - Skip Smart. Graduate Smarter.</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+background: linear-gradient(-45deg,#0f172a,#1e1b4b,#7c3aed,#ec4899);
+background-size:400% 400%;
+animation:gradient 12s ease infinite;
+color:white;
+min-height:100vh;
+overflow-x:hidden;
+}
+
+@keyframes gradient{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:30px 20px;
+}
+
+.hero{
+text-align:center;
+padding:80px 20px;
+}
+
+.hero h1{
+font-size:4rem;
+margin-bottom:15px;
+}
+
+.hero p{
+font-size:1.2rem;
+opacity:0.9;
+margin-bottom:20px;
+}
+
+.tagline{
+font-size:1.5rem;
+font-weight:bold;
+color:#facc15;
+}
+
+.floating{
+position:fixed;
+font-size:2rem;
+animation:float 8s infinite linear;
+opacity:0.2;
+}
+
+@keyframes float{
+from{transform:translateY(100vh);}
+to{transform:translateY(-120px);}
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+margin-top:40px;
+}
+
+.card{
+background:rgba(255,255,255,0.12);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,255,255,0.2);
+padding:25px;
+border-radius:20px;
+text-decoration:none;
+color:white;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-8px) scale(1.03);
+}
+
+.card h3{
+margin-bottom:10px;
+}
+
+.status{
+margin-top:60px;
+background:rgba(255,255,255,0.1);
+padding:30px;
+border-radius:20px;
+}
+
+.status h2{
+margin-bottom:15px;
+}
+
+.footer{
+margin-top:70px;
+text-align:center;
+opacity:0.8;
+padding-bottom:30px;
+}
+
+.btn{
+display:inline-block;
+margin-top:20px;
+padding:12px 24px;
+background:#facc15;
+color:#111827;
+border-radius:30px;
+text-decoration:none;
+font-weight:bold;
+}
+</style>
 </head>
-<body style="font-family:Arial;text-align:center;padding:50px;">
-    <h1>🎓 BunkBuddy</h1>
-    <p>Your Attendance Management Assistant</p>
 
-    <h2>Tools</h2>
+<body>
 
-    <p><a href="attendance.html">Attendance Calculator</a></p>
-    <p><a href="tracker.html">Subject Tracker</a></p>
-    <p><a href="simulator.html">What-If Simulator</a></p>
-    <p><a href="recovery.html">Recovery Plan</a></p>
+<div class="floating" style="left:10%">🎓</div>
+<div class="floating" style="left:30%;animation-delay:2s">☕</div>
+<div class="floating" style="left:50%;animation-delay:5s">📚</div>
+<div class="floating" style="left:70%;animation-delay:3s">😴</div>
+<div class="floating" style="left:90%;animation-delay:7s">📝</div>
+
+<div class="container">
+
+<div class="hero">
+<h1>🎓 BunkBuddy</h1>
+
+<div class="tagline">
+Skip Smart. Graduate Smarter.
+</div>
+
+<p>
+Helping students make academically questionable decisions since 2026.
+</p>
+
+<a href="attendance.html" class="btn">
+Start Calculating →
+</a>
+</div>
+
+<div class="cards">
+
+<a href="attendance.html" class="card">
+<h3>📊 Attendance Calculator</h3>
+<p>Can I bunk tomorrow without regretting my life choices?</p>
+</a>
+
+<a href="tracker.html" class="card">
+<h3>📚 Subject Tracker</h3>
+<p>The subject you forgot existed until internal marks arrived.</p>
+</a>
+
+<a href="simulator.html" class="card">
+<h3>🔮 What-If Simulator</h3>
+<p>Let's see how bad this attendance decision becomes.</p>
+</a>
+
+<a href="recovery.html" class="card">
+<h3>🚀 Recovery Plan</h3>
+<p>Emergency damage control for dangerously low attendance.</p>
+</a>
+
+</div>
+
+<div class="status">
+<h2>📈 Current Student Status</h2>
+
+<p>🟢 Safe Zone — Attendance above 85%</p>
+<br>
+
+<p>🟡 Living Dangerously — Attendance between 75% and 85%</p>
+<br>
+
+<p>🔴 Pray To The HOD — Attendance below 75%</p>
+</div>
+
+<div class="footer">
+<p>⚡ No Login • No Ads • No Tracking • Just Pure Attendance Anxiety</p>
+<br>
+<p>Made with caffeine ☕ and poor attendance decisions 😴</p>
+<br>
+<p>© 2026 BunkBuddy | Created by Ameer Suhail</p>
+</div>
+
+</div>
+
 </body>
 </html>
