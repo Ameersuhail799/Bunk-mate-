@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BunkBuddy | Subject Tracker &amp; Recovery Planner</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #121317;
+            color: #e3e2e8;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(220, 184, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .glow-purple {
+            box-shadow: 0 0 20px -5px rgba(138, 43, 226, 0.4);
+        }
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.5s ease;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .bunk-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #ffffff;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #dcb8ff;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-background": "#e3e2e8",
+                      "on-tertiary": "#003739",
+                      "on-secondary-fixed": "#2c0050",
+                      "background": "#121317",
+                      "secondary": "#ddb7ff",
+                      "on-error-container": "#ffdad6",
+                      "error-container": "#93000a",
+                      "primary": "#dcb8ff",
+                      "on-surface-variant": "#cfc2d7",
+                      "error": "#ffb4ab",
+                      "on-secondary-container": "#d1a1ff",
+                      "surface-container-highest": "#343439",
+                      "primary-container": "#8a2be2",
+                      "on-primary-container": "#eed9ff",
+                      "on-secondary": "#4a0080",
+                      "inverse-on-surface": "#2f3035",
+                      "on-surface": "#e3e2e8",
+                      "on-tertiary-fixed-variant": "#004f53",
+                      "surface-container-high": "#292a2e",
+                      "surface-tint": "#dcb8ff",
+                      "surface-container": "#1f1f24",
+                      "surface-container-lowest": "#0d0e12",
+                      "primary-fixed-dim": "#dcb8ff",
+                      "outline": "#988ca0",
+                      "tertiary-fixed": "#63f7ff",
+                      "surface-variant": "#343439",
+                      "surface-bright": "#38393e",
+                      "on-primary-fixed-variant": "#6700b5",
+                      "inverse-surface": "#e3e2e8",
+                      "on-tertiary-container": "#54f6ff",
+                      "inverse-primary": "#8422dc",
+                      "primary-fixed": "#efdbff",
+                      "on-error": "#690005",
+                      "surface-dim": "#121317",
+                      "on-secondary-fixed-variant": "#622599",
+                      "on-primary": "#480081",
+                      "secondary-container": "#622599",
+                      "outline-variant": "#4c4354",
+                      "tertiary-container": "#006f74",
+                      "on-tertiary-fixed": "#002021",
+                      "surface": "#121317",
+                      "secondary-fixed-dim": "#ddb7ff",
+                      "surface-container-low": "#1a1b20",
+                      "secondary-fixed": "#f0dbff",
+                      "tertiary-fixed-dim": "#00dce5",
+                      "tertiary": "#00dce5",
+                      "on-primary-fixed": "#2c0051"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "stack-md": "16px",
+                      "stack-lg": "32px",
+                      "stack-sm": "8px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "container-max": "1200px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Geist"],
+                      "stats-number": ["Geist"],
+                      "headline-md": ["Geist"],
+                      "body-base": ["Geist"],
+                      "label-mono": ["JetBrains Mono"],
+                      "display-lg-mobile": ["Geist"]
+              },
+              "fontSize": {
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                      "stats-number": ["36px", {"lineHeight": "1.0", "letterSpacing": "-0.05em", "fontWeight": "800"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "body-base": ["16px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                      "label-mono": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/3 dark:bg-white/3 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-margin-mobile py-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
+<h1 class="font-display-lg-mobile text-display-lg-mobile tracking-tighter text-primary">BunkBuddy</h1>
+</div>
+<div class="w-10 h-10 rounded-full border border-primary/20 overflow-hidden hover:opacity-80 transition-opacity active:scale-95">
+<img class="w-full h-full object-cover" data-alt="A stylish portrait of a young college student with a focused and intelligent expression, set against a dark cinematic background with purple accent lighting. The student wears a minimalist dark hoodie, reflecting the tech-focused and sleek aesthetic of a modern productivity application user interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvBn8AgKpkqYFUc1L3Fg_l_98FAliPbMEcDW9GdrsWZaUGpyTJ7dOCelsaX8C2kCV2M21hSD0xge8u9q5fOZ0CMf7bfbC42yEW2ZtLVjiC2tKaP81ulhrVtT8-C91XKkg6kaQ-ATR0uW8xMmFbRhUlfAvwF2-NPkft9pKGquaaJPcjZrxMzCPWVvqo9sc4ffeWyPpKClQCcmqIcj959xrLL8HktWIU9pcMSN4UfGH6iYd7bBDryvIjfilhHeZm6QRautIhXpHkoJs"/>
+</div>
+</header>
+<main class="flex-1 mt-20 mb-24 px-margin-mobile max-w-container-max mx-auto w-full">
+<!-- Welcome Section -->
+<section class="mb-stack-lg">
+<div class="flex flex-col gap-1">
+<span class="font-label-mono text-label-mono text-secondary uppercase tracking-widest">Dashboard Overview</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">You're 1 class away from the <span class="text-error">Danger Zone</span>.</h2>
+</div>
+</section>
+<!-- Stats Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-stack-lg">
+<!-- Global Progress Card -->
+<div class="md:col-span-8 glass-card rounded-xl p-stack-md flex flex-col md:flex-row items-center gap-gutter relative overflow-hidden">
+
+<div class="relative w-32 h-32 shrink-0">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="transparent" r="45" stroke="rgba(255,255,255,0.05)" stroke-width="8"></circle>
+<circle class="progress-ring-circle" cx="50" cy="50" fill="transparent" r="45" stroke="#dcb8ff" stroke-dasharray="282.7" stroke-dashoffset="70" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-stats-number text-stats-number text-primary">75%</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">TOTAL</span>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-2 z-10 text-center md:text-left">
+<h3 class="font-headline-md text-headline-md">Academic Stability</h3>
+<p class="font-body-base text-body-base text-on-surface-variant max-w-md">Your overall attendance is currently at the safety threshold. Miss 2 more classes across any subject to drop below 75%.</p>
+<div class="flex flex-wrap gap-2 mt-2 justify-center md:justify-start">
+<span class="px-3 py-1 rounded-full bg-primary-container/20 text-primary font-label-mono text-label-mono border border-primary/20">75% SAFE</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-label-mono text-label-mono border border-white/10">3 DAYS RECOVERY</span>
+</div>
+</div>
+</div>
+<!-- Quick Action: Recovery Tracker -->
+<div class="md:col-span-4 glass-card rounded-xl p-stack-md flex flex-col justify-between border-primary/30 glow-purple">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="calculate">calculate</span>
+<span class="font-label-mono text-label-mono text-primary bg-primary/10 px-2 py-0.5 rounded">QUICK CALC</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-2">Recovery Goal</h3>
+<p class="font-body-base text-body-base text-on-surface-variant text-sm">Input your target % to calculate the attendance grind.</p>
+</div>
+<button class="w-full mt-4 py-3 bg-gradient-to-r from-primary-container to-secondary-container text-on-primary rounded-xl font-headline-md text-headline-md hover:scale-[1.02] active:scale-95 transition-all">
+                    Plan Recovery
+                </button>
+</div>
+</div>
+<!-- Subject Grid -->
+<section class="mb-stack-lg">
+<div class="flex items-center justify-between mb-stack-md">
+<h3 class="font-headline-md text-headline-md">Your Subjects</h3>
+<button class="flex items-center gap-1 text-primary font-label-mono text-label-mono hover:opacity-70">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> ADD NEW
+                </button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack-md">
+<!-- Subject Card 1 -->
+<div class="glass-card rounded-xl p-stack-md flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-headline-md text-headline-md text-lg">Adv. Mathematics</h4>
+<p class="font-label-mono text-label-mono text-on-surface-variant">MATH-401</p>
+</div>
+<span class="px-2 py-1 rounded bg-error/10 text-error font-label-mono text-[10px] border border-error/20">CRITICAL</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative w-16 h-16">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="rgba(255,255,255,0.05)" stroke-width="10"></circle>
+<circle class="progress-ring-circle" cx="50" cy="50" fill="transparent" r="40" stroke="#ffb4ab" stroke-dasharray="251" stroke-dashoffset="100" stroke-linecap="round" stroke-width="10"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-label-mono text-xs text-error">60%</div>
+</div>
+<div class="flex flex-col">
+<span class="font-body-base text-sm">12 / 20 Attended</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">4 BUNKS REMAINING: 0</span>
+</div>
+</div>
+<div class="pt-2 border-t border-white/5 flex justify-between">
+<button class="text-primary font-label-mono text-[10px] hover:underline">DETAILS</button>
+<div class="flex gap-2">
+<button class="p-1.5 rounded-lg bg-surface-container-highest hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+<button class="p-1.5 rounded-lg bg-primary-container/40 hover:bg-primary-container/60 transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="check">check</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Subject Card 2 -->
+<div class="glass-card rounded-xl p-stack-md flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-headline-md text-headline-md text-lg">Quantum Physics</h4>
+<p class="font-label-mono text-label-mono text-on-surface-variant">PHYS-202</p>
+</div>
+<span class="px-2 py-1 rounded bg-tertiary/10 text-tertiary font-label-mono text-[10px] border border-tertiary/20">SAFE</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative w-16 h-16">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="rgba(255,255,255,0.05)" stroke-width="10"></circle>
+<circle class="progress-ring-circle" cx="50" cy="50" fill="transparent" r="40" stroke="#00dce5" stroke-dasharray="251" stroke-dashoffset="45" stroke-linecap="round" stroke-width="10"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-label-mono text-xs text-tertiary">82%</div>
+</div>
+<div class="flex flex-col">
+<span class="font-body-base text-sm">18 / 22 Attended</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">4 BUNKS REMAINING: 2</span>
+</div>
+</div>
+<div class="pt-2 border-t border-white/5 flex justify-between">
+<button class="text-primary font-label-mono text-[10px] hover:underline">DETAILS</button>
+<div class="flex gap-2">
+<button class="p-1.5 rounded-lg bg-surface-container-highest">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+<button class="p-1.5 rounded-lg bg-primary-container/40">
+<span class="material-symbols-outlined text-sm" data-icon="check">check</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Subject Card 3 -->
+<div class="glass-card rounded-xl p-stack-md flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-headline-md text-headline-md text-lg">System Design</h4>
+<p class="font-label-mono text-label-mono text-on-surface-variant">CS-301</p>
+</div>
+<span class="px-2 py-1 rounded bg-primary/10 text-primary font-label-mono text-[10px] border border-primary/20">OPTIMAL</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative w-16 h-16">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="rgba(255,255,255,0.05)" stroke-width="10"></circle>
+<circle class="progress-ring-circle" cx="50" cy="50" fill="transparent" r="40" stroke="#dcb8ff" stroke-dasharray="251" stroke-dashoffset="12" stroke-linecap="round" stroke-width="10"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-label-mono text-xs text-primary">95%</div>
+</div>
+<div class="flex flex-col">
+<span class="font-body-base text-sm">19 / 20 Attended</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant">4 BUNKS REMAINING: 4</span>
+</div>
+</div>
+<div class="pt-2 border-t border-white/5 flex justify-between">
+<button class="text-primary font-label-mono text-[10px] hover:underline">DETAILS</button>
+<div class="flex gap-2">
+<button class="p-1.5 rounded-lg bg-surface-container-highest">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+<button class="p-1.5 rounded-lg bg-primary-container/40">
+<span class="material-symbols-outlined text-sm" data-icon="check">check</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Recovery Planner Tool -->
+<section class="glass-card rounded-2xl p-stack-lg border-primary/20 relative overflow-hidden mb-stack-lg">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-9xl" data-icon="calculate">calculate</span>
+</div>
+<div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
+<div class="flex flex-col gap-6">
+<div>
+<h3 class="font-headline-md text-headline-md mb-2">Recovery Planner</h3>
+<p class="font-body-base text-on-surface-variant">Calculate exactly how many consecutive classes you need to attend to hit your target percentage.</p>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-primary uppercase">Select Subject</label>
+<select class="bg-surface-container-low border-b border-primary/40 focus:border-primary text-on-surface font-body-base p-2 outline-none rounded-t-lg">
+<option>Adv. Mathematics (60%)</option>
+<option>Quantum Physics (82%)</option>
+<option>System Design (95%)</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="font-label-mono text-label-mono text-primary uppercase">Target Percentage</label>
+<span class="text-primary font-stats-number" id="targetValue">75%</span>
+</div>
+<input class="bunk-slider w-full h-1 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary" id="targetRange" max="100" min="0" type="range" value="75"/>
+</div>
+</div>
+</div>
+<div class="flex flex-col justify-center items-center bg-primary-container/10 rounded-xl p-stack-md border border-primary/20">
+<span class="font-label-mono text-label-mono text-primary-container mb-2">REQUIRED GRIND</span>
+<div class="flex items-baseline gap-2">
+<span class="font-stats-number text-7xl text-primary" id="resultClasses">12</span>
+<span class="font-headline-md text-headline-md text-primary">Classes</span>
+</div>
+<p class="font-body-base text-on-surface-variant text-center mt-4 text-sm px-4">
+                        To reach <strong class="text-on-surface">75%</strong> in <strong class="text-on-surface">Adv. Mathematics</strong>, you must attend the next <strong class="text-primary">12 classes</strong> without missing a single one.
+                    </p>
+<button class="mt-6 flex items-center gap-2 px-6 py-2 bg-primary text-on-primary font-label-mono text-label-mono rounded-full hover:shadow-lg transition-shadow">
+<span class="material-symbols-outlined text-sm" data-icon="event_available">event_available</span> ADD TO CALENDAR
+                    </button>
+</div>
+</div>
+</section>
+<!-- Attendance Predictor Cards -->
+<section class="mb-stack-lg">
+<h3 class="font-headline-md text-headline-md mb-stack-md">Bunk Scenarios</h3>
+<div class="flex gap-stack-md overflow-x-auto pb-4 no-scrollbar">
+<!-- Predictor 1 -->
+<div class="min-w-[280px] glass-card p-stack-md rounded-xl border-l-4 border-l-primary">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="query_stats">query_stats</span>
+<span class="font-label-mono text-[10px] text-primary">THE LONG WEEKEND</span>
+</div>
+<p class="font-body-base text-sm mb-4">If you skip Friday's <strong class="text-on-surface">Math</strong> and <strong class="text-on-surface">Physics</strong> lectures:</p>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-[11px] font-label-mono">
+<span>Math</span>
+<span class="text-error">60% → 55%</span>
+</div>
+<div class="flex justify-between text-[11px] font-label-mono">
+<span>Physics</span>
+<span class="text-on-surface-variant">82% → 78%</span>
+</div>
+</div>
+</div>
+<!-- Predictor 2 -->
+<div class="min-w-[280px] glass-card p-stack-md rounded-xl border-l-4 border-l-error">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-error text-sm" data-icon="warning">warning</span>
+<span class="font-label-mono text-[10px] text-error">CRITICAL MISS</span>
+</div>
+<p class="font-body-base text-sm mb-4">Skipping the <strong class="text-on-surface">Math Lab</strong> tomorrow will drop your score to:</p>
+<div class="flex flex-col items-center justify-center p-2 bg-error/5 rounded-lg border border-error/10">
+<span class="font-stats-number text-error text-3xl">52%</span>
+<span class="font-label-mono text-[8px] text-error">AUTOMATIC FAIL THRESHOLD</span>
+</div>
+</div>
+<!-- Predictor 3 -->
+<div class="min-w-[280px] glass-card p-stack-md rounded-xl border-l-4 border-l-tertiary">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-tertiary text-sm" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-mono text-[10px] text-tertiary">THE GRIND EFFECT</span>
+</div>
+<p class="font-body-base text-sm mb-4">Attending all classes this week will boost your average by:</p>
+<div class="flex flex-col items-center justify-center p-2 bg-tertiary/5 rounded-lg border border-tertiary/10">
+<span class="font-stats-number text-tertiary text-3xl">+4.2%</span>
+<span class="font-label-mono text-[8px] text-tertiary">OPTIMAL RECOVERY PATH</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface-container/80 dark:bg-surface-container/80 backdrop-blur-lg border-t border-white/10 rounded-t-full shadow-lg flex justify-around items-center px-4 pb-4 pt-2">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-mono text-label-mono mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container/20 text-primary rounded-full p-2 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="book" style="font-variation-settings: 'FILL' 1;">book</span>
+<span class="font-label-mono text-label-mono mt-1">Subjects</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="calculate">calculate</span>
+<span class="font-label-mono text-label-mono mt-1">Simulator</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-mono text-label-mono mt-1">Analytics</span>
+</a>
+</nav>
+<!-- FAB for quick attendance logging -->
+<button class="fixed right-6 bottom-24 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center z-40 active:scale-90 transition-transform glow-purple">
+<span class="material-symbols-outlined text-2xl" data-icon="qr_code_scanner">qr_code_scanner</span>
+</button>
+<script>
+        // Micro-interactions for the range slider
+        const range = document.getElementById('targetRange');
+        const display = document.getElementById('targetValue');
+        const result = document.getElementById('resultClasses');
+
+        range.addEventListener('input', (e) => {
+            const val = e.target.value;
+            display.innerText = val + '%';
+            
+            // Dummy logic for calculation
+            let classesNeeded = Math.ceil((val - 60) * 0.8);
+            if(classesNeeded < 0) classesNeeded = 0;
+            result.innerText = classesNeeded;
+            
+            // Visual feedback on slider
+            const color = val > 75 ? '#dcb8ff' : (val > 60 ? '#00dce5' : '#ffb4ab');
+            display.style.color = color;
+            result.style.color = color;
+        });
+
+        // Initialize progress rings animation
+        window.addEventListener('DOMContentLoaded', () => {
+            const rings = document.querySelectorAll('.progress-ring-circle');
+            rings.forEach(ring => {
+                const offset = ring.getAttribute('stroke-dashoffset');
+                ring.style.strokeDashoffset = 282.7; // Start empty
+                setTimeout(() => {
+                    ring.style.strokeDashoffset = offset;
+                }, 300);
+            });
+        });
+    </script>
+</body></html>
